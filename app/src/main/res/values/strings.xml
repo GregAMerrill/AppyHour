@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">Appy Hour</string>
+    <string name="app_name">Appy</string>
     <string name="welcome_string">Appy Hour</string>
+    <string name="enter_button">Enter</string>
+    <string name="add_bottle_string">Add Bottle</string>
+    <string name="recipe_button_string">Recipes</string>
 </resources>

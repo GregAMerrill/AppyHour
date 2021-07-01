@@ -14,10 +14,10 @@ class HomeViewModel(
     val database: BarDatabaseDao,
     application: Application) : AndroidViewModel(application) {
 
-    private val _navigateToAddBottle = MutableLiveData<Bottle>()
+    private val _navigateToAddBottle = MutableLiveData<Boolean>()
     private val _navigateToRecipes = MutableLiveData<Boolean>()
 
-    val navigateToAddBottle: LiveData<Bottle>
+    val navigateToAddBottle: LiveData<Boolean>
     get() = _navigateToAddBottle
     val navigateToRecipes: LiveData<Boolean>
     get() = _navigateToRecipes
@@ -34,18 +34,9 @@ class HomeViewModel(
         }
     }
 
-    private suspend fun insert(bottle: Bottle) {
-        withContext(Dispatchers.IO) {
-            database.insert(bottle)
-        }
-    }
 
     fun addNewBottle() {
-        viewModelScope.launch {
-            val newBottle = Bottle()
-            insert(newBottle)
-            _navigateToAddBottle.value = newBottle
-        }
+        _navigateToAddBottle.value = true
     }
 
     fun viewRecipes() {
@@ -55,6 +46,11 @@ class HomeViewModel(
     fun doneNavigatingToAddBottle(){
         _navigateToAddBottle.value = null
     }
+
+    fun doneNavigatingToRecipes(){
+        _navigateToRecipes.value = null
+    }
+
 
     fun onBottleClicked(id: Long) {
         viewModelScope.launch {

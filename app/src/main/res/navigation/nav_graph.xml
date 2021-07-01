@@ -16,12 +16,9 @@
     </fragment>
     <fragment
         android:id="@+id/addBottleFragment"
-        android:name="com.example.appyhour.AddBottle.AddBottleFragment"
+        android:name="com.example.appyhour.addBottle.AddBottleFragment"
         android:label="fragment_add_bottle"
         tools:layout="@layout/fragment_add_bottle" >
-        <argument
-            android:name="bottleKey"
-            app:argType="long" />
         <action
             android:id="@+id/action_addBottleFragment_to_homeFragment"
             app:destination="@id/homeFragment" />

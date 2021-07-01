@@ -15,5 +15,10 @@
         <item name="android:fontFamily">@font/federo</item>
         <item name="fontFamily">@font/federo</item>
         <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textColorHint">@color/primaryTextColor</item>
+    </style>
+
+    <style name="fragmentHeader" parent="appTheme">
+        <item name="android:textSize">64sp</item>
     </style>
 </resources>

@@ -38,10 +38,16 @@ class HomeFragment : Fragment() {
         binding.homeViewModel = homeViewModel
         binding.lifecycleOwner = this
 
-        homeViewModel.navigateToAddBottle.observe(viewLifecycleOwner, Observer { bottle ->
-            bottle?.let {
+        homeViewModel.navigateToAddBottle.observe(viewLifecycleOwner, Observer { nav ->
+            nav?.let {
                 this.findNavController().navigate(R.id.action_homeFragment_to_addBottleFragment)
                 homeViewModel.doneNavigatingToAddBottle()
+            }
+        })
+        homeViewModel.navigateToRecipes.observe(viewLifecycleOwner, Observer { nav ->
+            nav?.let {
+                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToRecipeFragment())
+                homeViewModel.doneNavigatingToRecipes()
             }
         })
 

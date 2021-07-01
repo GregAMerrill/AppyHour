@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bottle_types">
+        <item>Vodka</item>
+        <item>Whiskey</item>
+        <item>Gin</item>
+        <item>Rum</item>
+        <item>Brandy</item>
+        <item>Tequila</item>
+    </string-array>
+</resources>

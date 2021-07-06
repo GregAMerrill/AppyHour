@@ -14,13 +14,15 @@ class HomeViewModel(
     val database: BarDatabaseDao,
     application: Application) : AndroidViewModel(application) {
 
-    private val _navigateToAddBottle = MutableLiveData<Boolean>()
-    private val _navigateToRecipes = MutableLiveData<Boolean>()
+    private val _navigateToAddBottle = MutableLiveData<Boolean?>()
+    private val _navigateToRecipes = MutableLiveData<Boolean?>()
 
-    val navigateToAddBottle: LiveData<Boolean>
+    val navigateToAddBottle: LiveData<Boolean?>
     get() = _navigateToAddBottle
-    val navigateToRecipes: LiveData<Boolean>
+    val navigateToRecipes: LiveData<Boolean?>
     get() = _navigateToRecipes
+
+    val bottles = database.getBottles()
 
     private suspend fun clear() {
         withContext(Dispatchers.IO) {

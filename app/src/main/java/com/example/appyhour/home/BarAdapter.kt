@@ -12,8 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SleepNightAdapter(val clickListener: BottleListener) : ListAdapter<DataItem,
-        RecyclerView.ViewHolder>(SleepNightDiffCallback()) {
+class BarAdapter(val clickListener: BottleListener) : ListAdapter<DataItem,
+        RecyclerView.ViewHolder>(BottleDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -66,7 +66,7 @@ class BottleListener(val clickListener: (bottleId: Long) -> Unit) {
     fun onClick(bottle: Bottle) = clickListener(bottle.bottleId)
 }
 
-class SleepNightDiffCallback : DiffUtil.ItemCallback<DataItem>() {
+class BottleDiffCallback : DiffUtil.ItemCallback<DataItem>() {
     override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
         return oldItem.id == newItem.id
     }

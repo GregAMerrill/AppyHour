@@ -9,27 +9,47 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.appyhour.R
 import com.example.appyhour.database.BarDatabase
 import com.example.appyhour.databinding.FragmentAddBottleBinding
+import com.google.android.material.snackbar.Snackbar
+
+private lateinit var bottleType: String
+private var bottleName = ""
 
 class AddBottleFragment : Fragment() {
+
+    class SpinnerActivity : Activity(), AdapterView.OnItemSelectedListener {
+
+        override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+            val item = parent.getItemAtPosition(pos).toString()
+            bottleType = item
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>) {
+            val item = "Vodka"
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val binding: FragmentAddBottleBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_add_bottle, container, false)
+        val binding: FragmentAddBottleBinding = DataBindingUtil.inflate(inflater,
+            R.layout.fragment_add_bottle, container, false)
 
         val application = requireNotNull(this.activity).application
 
         val dataSource = BarDatabase.getInstance(application).barDatabaseDao
         val viewModelFactory = AddBottleViewModelFactory(dataSource)
 
-        val addBottleViewModel = ViewModelProvider(this, viewModelFactory).get(AddBottleViewModel::class.java)
+        val addBottleViewModel = ViewModelProvider(this, viewModelFactory)
+            .get(AddBottleViewModel::class.java)
 
         binding.addBottleViewModel = addBottleViewModel
 
@@ -41,28 +61,22 @@ class AddBottleFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
         }
+        spinner.onItemSelectedListener = SpinnerActivity()
 
-        addBottleViewModel.navigateToHome.observe(viewLifecycleOwner, Observer{
-            if (it == true) { // Observed state is true.
-                this.findNavController().navigate(
-                    AddBottleFragmentDirections.actionAddBottleFragmentToHomeFragment())
-                addBottleViewModel.doneNavigating()
+        binding.addButton.setOnClickListener {
+            bottleName = binding.addBottleName.text.toString()
+            if(bottleName.isNotEmpty()) {
+                addBottleViewModel.onSubmitBottle(bottleName, bottleType)
+                this.findNavController().navigate(AddBottleFragmentDirections.actionAddBottleFragmentToHomeFragment())
+            } else {
+                Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        getString(R.string.no_bottle_name),
+                        Snackbar.LENGTH_SHORT) // How long to display the message.
+                .show()
             }
-        })
-
+        }
         return binding.root
     }
-
 }
 
-class SpinnerActivity : Activity(), AdapterView.OnItemSelectedListener {
-
-    override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-        val item = parent.getItemAtPosition(pos)
-        
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>) {
-        // Another interface callback
-    }
-}

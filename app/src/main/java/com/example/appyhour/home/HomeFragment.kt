@@ -54,10 +54,16 @@ class HomeFragment : Fragment() {
         val manager = GridLayoutManager(activity, 4)
         binding.bar.layoutManager = manager
 
-        val adapter = SleepNightAdapter(BottleListener { bottleId ->
+        val adapter = BarAdapter(BottleListener { bottleId ->
             homeViewModel.onBottleClicked(bottleId)
         })
         binding.bar.adapter = adapter
+
+        homeViewModel.bottles.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.submitBottleList(it)
+            }
+        })
 
         return binding.root
 

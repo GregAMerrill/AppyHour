@@ -6,4 +6,6 @@
     <string name="add_bottle_string">Add Bottle</string>
     <string name="recipe_button_string">Recipes</string>
     <string name="enter_bottle_name">Enter bottle name</string>
+    <string name="add_button_string">Add</string>
+    <string name="no_bottle_name">Bottle needs a name</string>
 </resources>

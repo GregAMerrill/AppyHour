@@ -8,7 +8,7 @@
             name="homeViewModel"
             type="com.example.appyhour.home.HomeViewModel" />
     </data>
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,52 +17,47 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bar"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:padding="6dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/add_bottle_button"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_button"
-            app:spanCount="4">
-
-
-        </androidx.recyclerview.widget.RecyclerView>
+            app:layout_constraintTop_toBottomOf="@+id/appTitle"></androidx.recyclerview.widget.RecyclerView>
 
         <Button
             android:id="@+id/add_bottle_button"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/home_button_size"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normal_padding"
+            android:layout_marginEnd="@dimen/small_padding"
             android:layout_marginBottom="@dimen/normal_padding"
-            android:text="@string/add_bottle_string"
             android:onClick="@{()->homeViewModel.addNewBottle()}"
+            android:text="@string/add_bottle_string"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bar" />
+            app:layout_constraintEnd_toStartOf="@id/recipe_button"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/recipe_button"
+            android:layout_width="@dimen/home_button_size"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_padding"
+            android:onClick="@{()->homeViewModel.viewRecipes()}"
+            android:text="@string/recipe_button_string"
+            app:layout_constraintBaseline_toBaselineOf="@+id/add_bottle_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/add_bottle_button" />
+
+        <TextView
+            android:id="@+id/appTitle"
+            style="@style/fragmentHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/normal_padding"
-            android:layout_marginBottom="@dimen/normal_padding"
-            android:text="@string/recipe_button_string"
-            android:onClick="@{()->homeViewModel.viewRecipes()}"
-            app:layout_constraintBottom_toTopOf="@+id/bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/normal_padding"
-            android:text="TextView"
-            app:layout_constraintBottom_toTopOf="@+id/recipe_button"
+            android:text="@string/app_name"
+            android:theme="@style/appTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

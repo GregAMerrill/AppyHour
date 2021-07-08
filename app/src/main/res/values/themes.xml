@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="appTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="appTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
@@ -16,6 +16,7 @@
         <item name="fontFamily">@font/federo</item>
         <item name="android:textColor">@color/primaryTextColor</item>
         <item name="android:textColorHint">@color/primaryTextColor</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="fragmentHeader" parent="appTheme">

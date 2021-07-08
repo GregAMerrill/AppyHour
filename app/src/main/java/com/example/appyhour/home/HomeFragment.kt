@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appyhour.R
 import com.example.appyhour.database.BarDatabase
 import com.example.appyhour.databinding.FragmentHomeBinding
@@ -51,7 +52,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        val manager = GridLayoutManager(activity, 4)
+        val manager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         binding.bar.layoutManager = manager
 
         val adapter = BarAdapter(BottleListener { bottleId ->

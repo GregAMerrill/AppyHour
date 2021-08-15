@@ -15,12 +15,12 @@
         android:background="@drawable/background_home">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/add_bottle_header"
             style="@style/fragmentHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/normal_padding"
-            android:text="@string/add_bottle_string"
+            android:text="@string/add_bottle_header_string"
             android:theme="@style/appTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/add_bottle_header" />
 
         <Spinner
             android:id="@+id/add_bottle_type"

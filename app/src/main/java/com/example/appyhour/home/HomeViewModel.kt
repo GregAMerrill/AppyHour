@@ -16,11 +16,14 @@ class HomeViewModel(
 
     private val _navigateToAddBottle = MutableLiveData<Boolean?>()
     private val _navigateToRecipes = MutableLiveData<Boolean?>()
+    private val _navigateToBottle = MutableLiveData<Bottle?>()
 
     val navigateToAddBottle: LiveData<Boolean?>
     get() = _navigateToAddBottle
     val navigateToRecipes: LiveData<Boolean?>
     get() = _navigateToRecipes
+    val navigateToBottle: LiveData<Boolean?>
+    get() = _navigateToAddBottle
 
     val bottles = database.getBottles()
 
@@ -57,7 +60,19 @@ class HomeViewModel(
     fun onBottleClicked(id: Long) {
         viewModelScope.launch {
             val bottleClicked = database.get(id)
+            _navigateToBottle.value = bottleClicked
         }
     }
 
+        class Factory(
+            private val dataSource: BarDatabaseDao,
+            private val application: Application) : ViewModelProvider.Factory {
+        @Suppress("unchecked_cast")
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+                return HomeViewModel(dataSource, application) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
+    }
 }

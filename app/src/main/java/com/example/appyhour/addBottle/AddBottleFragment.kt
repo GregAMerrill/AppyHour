@@ -33,7 +33,7 @@ class AddBottleFragment : Fragment() {
         }
 
         override fun onNothingSelected(parent: AdapterView<*>) {
-            val item = "Vodka"
+            bottleType = "Vodka"
         }
     }
 

@@ -10,14 +10,3 @@ import com.example.appyhour.database.BarDatabaseDao
  *
  * Provides the key for the night and the SleepDatabaseDao to the ViewModel.
  */
-class HomeViewModelFactory(
-    private val dataSource: BarDatabaseDao,
-    private val application: Application) : ViewModelProvider.Factory {
-    @Suppress("unchecked_cast")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            return HomeViewModel(dataSource, application) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="recipe"
+            type="com.example.appyhour.recipes.recipeList.Recipe" />
+        <variable
+            name="clickListener"
+            type="com.example.appyhour.recipes.recipeList.RecipeListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/recipe_box"
+        android:onClick="@{() -> clickListener.onClick(recipe)}">
+
+        <TextView
+            android:id="@+id/recipeName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/baby_padding"
+            android:theme="@style/recipeHeader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:recipeName="@{recipe}"
+            tools:text="Recipe" />
+
+        <TextView
+            android:id="@+id/recipeIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/baby_padding"
+            android:paddingBottom="@dimen/baby_padding"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recipeName"
+            app:recipeIngredients="@{recipe}"
+            tools:text="recipe ingredients" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

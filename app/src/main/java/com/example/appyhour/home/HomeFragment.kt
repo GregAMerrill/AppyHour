@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
 
         val dataSource = BarDatabase.getInstance(application).barDatabaseDao
 
-        val viewModelFactory = HomeViewModelFactory(dataSource, application)
+        val viewModelFactory = HomeViewModel.Factory(dataSource, application)
 
         val homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
         binding.homeViewModel = homeViewModel

@@ -9,4 +9,5 @@
     <string name="enter_bottle_name">Enter bottle name</string>
     <string name="add_button_string">Add</string>
     <string name="no_bottle_name">Bottle needs a name</string>
+    <string name="loading_image">Loading image</string>
 </resources>

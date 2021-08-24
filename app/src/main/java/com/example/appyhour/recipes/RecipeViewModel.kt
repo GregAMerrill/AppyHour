@@ -1,50 +1,47 @@
 package com.example.appyhour.recipes
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.*
 import com.example.appyhour.recipes.recipeList.Recipe
 import com.example.appyhour.recipes.recipeList.RecipeApi
+import com.example.appyhour.recipes.recipeList.RecipeRepository
+import com.example.appyhour.recipes.recipeList.getDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 enum class RecipeApiStatus { LOADING, ERROR, DONE }
 
-class RecipeViewModel: ViewModel() {
+class RecipeViewModel(application: Application): ViewModel() {
 
-    private val _status = MutableLiveData<RecipeApiStatus>()
-    val status: LiveData<RecipeApiStatus>
-        get() = _status
+    private val database = getDatabase(application)
+    private val recipesRepository = RecipeRepository(database)
 
-    private val _recipes = MutableLiveData<List<Recipe>>()
-    val recipes: LiveData<List<Recipe>>
-        get() = _recipes
-
-    private val _navigateToSelectedRecipe = MutableLiveData<Recipe?>()
-    val navigateToSelectedRecipe: LiveData<Recipe?>
-        get() = _navigateToSelectedRecipe
+    private val viewModelJob = SupervisorJob()
+    private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     init {
-        getRecipes()
-    }
-
-    private fun getRecipes() {
         viewModelScope.launch {
-            _status.value = RecipeApiStatus.LOADING
-            try {
-                _recipes.value = RecipeApi.retrofitService.getRecipes()
-                _status.value = RecipeApiStatus.DONE
-            } catch (e: Exception) {
-                _status.value = RecipeApiStatus.ERROR
-                _recipes.value = ArrayList()
-            }
+            recipesRepository.refreshRecipes()
         }
     }
-    fun displayRecipeDetails(recipe: Recipe) {
-        _navigateToSelectedRecipe.value = recipe
+
+    val recipeList = recipesRepository.recipes
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 
-    fun displayRecipeDetailsComplete() {
-        _navigateToSelectedRecipe.value = null
+    class Factory(val application: Application) : ViewModelProvider.Factory {
+        @Suppress("unchecked_cast")
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(RecipeViewModel::class.java)) {
+                return RecipeViewModel(application) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.appyhour.database
+package com.example.appyhour.bottleDatabase
 
 import android.content.Context
 import androidx.room.Database

@@ -2,7 +2,7 @@ package com.example.appyhour.addBottle
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.appyhour.database.BarDatabaseDao
+import com.example.appyhour.bottleDatabase.BarDatabaseDao
 
 class AddBottleViewModelFactory(
     private val dataSource: BarDatabaseDao) : ViewModelProvider.Factory {

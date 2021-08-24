@@ -3,10 +3,9 @@ package com.example.appyhour.home
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.appyhour.database.BarDatabaseDao
-import com.example.appyhour.database.Bottle
+import com.example.appyhour.bottleDatabase.BarDatabaseDao
+import com.example.appyhour.bottleDatabase.Bottle
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

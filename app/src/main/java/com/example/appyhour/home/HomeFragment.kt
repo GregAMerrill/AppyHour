@@ -9,10 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appyhour.R
-import com.example.appyhour.database.BarDatabase
+import com.example.appyhour.bottleDatabase.BarDatabase
 import com.example.appyhour.databinding.FragmentHomeBinding
 
 /**

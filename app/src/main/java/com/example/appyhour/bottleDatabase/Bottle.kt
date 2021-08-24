@@ -1,9 +1,8 @@
-package com.example.appyhour.database
+package com.example.appyhour.bottleDatabase
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.appyhour.R
 
 @Entity(tableName = "bar_table")
 data class Bottle(

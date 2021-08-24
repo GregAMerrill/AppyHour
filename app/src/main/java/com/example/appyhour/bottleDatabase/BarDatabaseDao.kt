@@ -1,4 +1,4 @@
-package com.example.appyhour.database
+package com.example.appyhour.bottleDatabase
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

@@ -9,14 +9,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.appyhour.R
-import com.example.appyhour.database.BarDatabase
+import com.example.appyhour.bottleDatabase.BarDatabase
 import com.example.appyhour.databinding.FragmentAddBottleBinding
 import com.google.android.material.snackbar.Snackbar
 

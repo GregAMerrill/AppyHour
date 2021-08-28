@@ -22,6 +22,10 @@ class RecipeViewModel(application: Application): ViewModel() {
     private val viewModelJob = SupervisorJob()
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+    private val _navToRecipeDetail = MutableLiveData<Recipe?>()
+    val navToRecipeDetail: LiveData<Recipe?>
+        get() = _navToRecipeDetail
+
     init {
         viewModelScope.launch {
             recipesRepository.refreshRecipes()
@@ -33,6 +37,14 @@ class RecipeViewModel(application: Application): ViewModel() {
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    fun navigateToRecipeDetail(recipe: Recipe) {
+        _navToRecipeDetail.value = recipe
+    }
+
+    fun doneNavigatingToDetail() {
+        _navToRecipeDetail.value = null
     }
 
     class Factory(val application: Application) : ViewModelProvider.Factory {

@@ -36,7 +36,13 @@ class RecipeFragment : Fragment() {
 
         viewModel.recipeList.observe(viewLifecycleOwner, { recipes ->
             recipes?.apply {
-                viewModelAdapter?.recipes = recipes
+                viewModelAdapter?.recipes = recipes.sortedBy{it.name}
+            }
+        })
+        viewModel.navToRecipeDetail.observe(viewLifecycleOwner, Observer {
+            if(null != it){
+                this.findNavController().navigate(RecipeFragmentDirections.actionRecipeFragmentToRecipeDetailFragment(it))
+                viewModel.doneNavigatingToDetail()
             }
         })
     }
@@ -51,8 +57,7 @@ class RecipeFragment : Fragment() {
 
 
         viewModelAdapter = RecipeAdapter(RecipeListener {
-            this.findNavController().navigate(R.id.action_recipeFragment_to_homeFragment)
-            Log.i("Recipe Clicked: ", it.toString())
+            viewModel.navigateToRecipeDetail(it)
         })
 
         binding.lifecycleOwner = viewLifecycleOwner
@@ -86,7 +91,6 @@ class RecipeAdapter(val clickListener: RecipeListener) : RecyclerView.Adapter<Re
                 RecipeViewHolder.LAYOUT,
                 parent,
                 false)
-        Log.i("CreateViewHolder","CREATEVIEWHOLDER")
         return RecipeViewHolder(dataBinding)
     }
 

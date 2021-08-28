@@ -2,14 +2,15 @@ package com.example.appyhour.addBottle
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.appyhour.R
@@ -34,11 +35,28 @@ class AddBottleFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    fun hideSoftKeyboard() {
+        val activity = this.activity
+        val inputMethodManager: InputMethodManager = activity?.getSystemService(
+            Activity.INPUT_METHOD_SERVICE
+        ) as InputMethodManager
+        if (inputMethodManager.isAcceptingText) {
+            inputMethodManager.hideSoftInputFromWindow(
+                activity.currentFocus!!.windowToken,
+                0
+            )
+        }
+    }
 
-        val binding: FragmentAddBottleBinding = DataBindingUtil.inflate(inflater,
-            R.layout.fragment_add_bottle, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        val binding: FragmentAddBottleBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_add_bottle, container, false
+        )
 
         val application = requireNotNull(this.activity).application
 
@@ -67,11 +85,15 @@ class AddBottleFragment : Fragment() {
                 this.findNavController().navigate(AddBottleFragmentDirections.actionAddBottleFragmentToHomeFragment())
             } else {
                 Snackbar.make(
-                        requireActivity().findViewById(android.R.id.content),
-                        getString(R.string.no_bottle_name),
-                        Snackbar.LENGTH_SHORT) // How long to display the message.
+                    requireActivity().findViewById(android.R.id.content),
+                    getString(R.string.no_bottle_name),
+                    Snackbar.LENGTH_SHORT
+                ) // How long to display the message.
                 .show()
             }
+        }
+        binding.addBottleLayout.setOnClickListener {
+            hideSoftKeyboard()
         }
         return binding.root
     }

@@ -17,21 +17,6 @@
         android:onClick="@{() -> clickListener.onClick(recipe)}"
         android:background="@drawable/recipe_box">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/left_well"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="8dp" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/right_well"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="8dp" />
-
         <TextView
             android:id="@+id/recipeName"
             android:layout_width="match_parent"

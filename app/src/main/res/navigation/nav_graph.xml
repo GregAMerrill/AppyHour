@@ -14,6 +14,9 @@
             android:id="@+id/action_recipeFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_recipeFragment_to_recipeDetailFragment"
+            app:destination="@id/recipeDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/addBottleFragment"
@@ -35,5 +38,16 @@
         <action
             android:id="@+id/action_homeFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeDetailFragment"
+        android:name="com.example.appyhour.recipes.RecipeDetailFragment"
+        android:label="RecipeDetailFragment">
+        <argument android:name="recipe"
+            app:argType="com.example.appyhour.recipes.recipeList.Recipe" />
+        <action
+            android:id="@+id/action_recipeDetailFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment"
+            app:popUpTo="@id/recipeFragment" />
     </fragment>
 </navigation>

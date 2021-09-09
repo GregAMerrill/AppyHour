@@ -9,4 +9,13 @@ data class Recipe(
         val name: String,
         val ingredients: List<String>,
         val directions: String,
-        val isSaved: Boolean = false) : Parcelable
+        var isSaved: Boolean) : Parcelable
+
+fun Recipe.asDatabaseRecipe(): DatabaseRecipe {
+    return DatabaseRecipe(
+                id = this.id,
+                name = this.name,
+                ingredients = this.ingredients.toString().trim('[',']'),
+                directions = this.directions,
+                isSaved = this.isSaved)
+}

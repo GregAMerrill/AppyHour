@@ -19,7 +19,8 @@ fun NetworkRecipeContainer.asDomainModel(): List<Recipe> {
             id = it.id,
             name = it.name,
             ingredients = it.ingredients.split(", "),
-            directions = it.directions)
+            directions = it.directions,
+            isSaved = false)
     }
 }
 
@@ -29,7 +30,8 @@ fun NetworkRecipeContainer.asDatabaseModel(): Array<DatabaseRecipe> {
             id = it.id,
             name = it.name,
             ingredients = it.ingredients,
-            directions = it.directions)
+            directions = it.directions,
+            isSaved = false)
     }.toTypedArray()
 }
 

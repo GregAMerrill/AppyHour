@@ -1,6 +1,5 @@
 package com.example.appyhour.recipes.recipeList
 
-
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -10,7 +9,14 @@ interface RecipeDao {
     @Query("select * from databaserecipe")
     fun getRecipes(): LiveData<List<DatabaseRecipe>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Query("select * from databaserecipe where id=:id")
+    fun getRecipe(id: Long): DatabaseRecipe
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateRecipe(recipe: DatabaseRecipe)
+
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(vararg recipes: DatabaseRecipe)
 }
 

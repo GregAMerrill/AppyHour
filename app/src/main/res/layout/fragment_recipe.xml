@@ -25,10 +25,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/filter_button"
+            android:layout_width="@dimen/home_button_size"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_padding"
+            android:layout_marginBottom="@dimen/normal_padding"
+            android:onClick="@{()->viewModel.changeFilter()}"
+            android:text="@string/filter_recipes_string"
+            app:layout_constraintTop_toBottomOf="@id/recipesFrameLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <FrameLayout
+            android:id="@+id/recipesFrameLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/normal_padding"
+            app:layout_constraintBottom_toTopOf="@id/filter_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recipeTitle">
@@ -37,17 +53,17 @@
                 android:id="@+id/loading_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:goneIfNotNull="@{viewModel.recipeList}"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                app:goneIfNotNull="@{viewModel.recipeList}" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recipes"
+                android:layout_marginStart="@dimen/normal_padding"
+                android:layout_marginEnd="@dimen/normal_padding"
+                android:layout_marginTop="@dimen/baby_padding"
+                android:layout_marginBottom="@dimen/baby_padding"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/normal_padding" />
+                android:layout_height="wrap_content" />
         </FrameLayout>
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

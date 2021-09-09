@@ -11,8 +11,19 @@ data class DatabaseRecipe(
     val id: Long,
     val name: String,
     val ingredients: String,
-    val directions: String
+    val directions: String,
+    var isSaved: Boolean
 )
+
+fun DatabaseRecipe.asDomainModel(): Recipe {
+    return Recipe(
+        id = this.id,
+        name = this.name,
+        ingredients = this.ingredients.split(", "),
+        directions = this.directions,
+        isSaved = this.isSaved
+    )
+}
 
 fun List<DatabaseRecipe>.asDomainModel(): List<Recipe> {
     return map {
@@ -20,7 +31,8 @@ fun List<DatabaseRecipe>.asDomainModel(): List<Recipe> {
             id = it.id,
             name = it.name,
             ingredients = it.ingredients.split(", "),
-            directions = it.directions
+            directions = it.directions,
+            isSaved = it.isSaved
         )
     }
 }

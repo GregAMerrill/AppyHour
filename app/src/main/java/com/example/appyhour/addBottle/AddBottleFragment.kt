@@ -61,7 +61,7 @@ class AddBottleFragment : Fragment() {
         val application = requireNotNull(this.activity).application
 
         val dataSource = BarDatabase.getInstance(application).barDatabaseDao
-        val viewModelFactory = AddBottleViewModelFactory(dataSource)
+        val viewModelFactory = AddBottleViewModel.Factory(dataSource)
 
         val addBottleViewModel = ViewModelProvider(this, viewModelFactory)
             .get(AddBottleViewModel::class.java)

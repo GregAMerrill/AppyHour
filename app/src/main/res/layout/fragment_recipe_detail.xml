@@ -6,44 +6,66 @@
         <variable
             name="recipe"
             type="com.example.appyhour.recipes.recipeList.Recipe" />
+        <variable
+            name="viewModel"
+            type="com.example.appyhour.recipes.RecipeDetailViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background_home">
 
+        <ImageButton
+            android:id="@+id/saveRecipe"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            app:favoritePressed="@{recipe.isSaved}"
+            android:background="@drawable/save_recipe_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="@dimen/normal_padding"
+            android:onClick="@{() -> viewModel.saveRecipe(recipe)}"
+            android:contentDescription="@string/save_recipe_contdesc"/>
+
         <ScrollView
+            android:id="@+id/scrollViewRecipeDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/normal_padding"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/recipe_box">
+            android:layout_marginTop="16dp"
+            android:background="@drawable/recipe_box"
+            app:layout_constraintTop_toBottomOf="@id/saveRecipe"
+            tools:layout_editor_absoluteX="16dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/normal_padding">
+
                 <TextView
                     android:id="@id/recipeDetailName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:theme="@style/recipeHeader"
-                    android:paddingBottom="@dimen/baby_padding"
                     android:paddingTop="@dimen/normal_padding"
+                    android:paddingBottom="@dimen/baby_padding"
                     android:text="@{recipe.name}"
+                    android:theme="@style/recipeHeader"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Recipe Name" />
+
                 <TextView
                     android:id="@id/recipeDetailIngredients"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingTop="@dimen/normal_padding"
-                    app:layout_constraintTop_toBottomOf="@id/recipeDetailName"
                     app:convertIngredients="@{recipe}"
+                    app:layout_constraintTop_toBottomOf="@id/recipeDetailName"
                     tools:text="Recipe Ingredients" />
+
                 <TextView
                     android:id="@id/recipeDetailDirections"
                     android:layout_width="match_parent"
@@ -51,11 +73,10 @@
                     android:gravity="center"
                     android:paddingTop="@dimen/normal_padding"
                     android:paddingBottom="@dimen/normal_padding"
-                    app:layout_constraintTop_toBottomOf="@id/recipeDetailIngredients"
                     android:text="@{recipe.directions}"
+                    app:layout_constraintTop_toBottomOf="@id/recipeDetailIngredients"
                     tools:text="Recipe Directions" />
             </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

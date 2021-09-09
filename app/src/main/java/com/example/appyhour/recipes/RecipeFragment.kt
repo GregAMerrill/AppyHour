@@ -8,8 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -26,18 +29,23 @@ class RecipeFragment : Fragment() {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onViewCreated()"
         }
-        ViewModelProvider(this, RecipeViewModel.Factory(activity.application)).get(RecipeViewModel::class.java)
+        ViewModelProvider(activity, RecipeViewModel.Factory(activity.application, this))[RecipeViewModel::class.java]
     }
 
+    private lateinit var binding: FragmentRecipeBinding
     private var viewModelAdapter: RecipeAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.recipeList.observe(viewLifecycleOwner, { recipes ->
-            recipes?.apply {
-                viewModelAdapter?.recipes = recipes.sortedBy{it.name}
-            }
+        when(viewModel.recipeFilter.value) {
+            ListType.FULL -> binding.recipeTitle.text = getString(R.string.all_recipes_string)
+            ListType.SAVED ->binding.recipeTitle.text = getString(R.string.my_recipes_string)
+        }
+        viewModel.recipeList.observe(viewLifecycleOwner, {
+            filterRecipeList(viewModel.recipeFilter.value!!)
+        })
+        viewModel.recipeFilter.observe(viewLifecycleOwner, { listType ->
+            filterRecipeList(listType)
         })
         viewModel.navToRecipeDetail.observe(viewLifecycleOwner, Observer {
             if(null != it){
@@ -47,29 +55,41 @@ class RecipeFragment : Fragment() {
         })
     }
 
+    private fun filterRecipeList(listType: ListType) {
+        viewModel.recipeList.value?.apply{
+            val myRecipes = this.filter { recipe -> recipe.isSaved }.sortedBy { it.name }
+            binding.recipesFrameLayout.background =
+                getDrawable(requireContext(), R.drawable.recipe_scroll_box)
+            if(listType == ListType.SAVED) viewModelAdapter?.recipes = myRecipes
+            else viewModelAdapter?.recipes = this.sortedBy { it.name }
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-            val binding: FragmentRecipeBinding = DataBindingUtil.inflate(
-                inflater,
-                R.layout.fragment_recipe,
-                container,
-                false)
-
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_recipe,
+            container,false)
 
         viewModelAdapter = RecipeAdapter(RecipeListener {
             viewModel.navigateToRecipeDetail(it)
         })
 
         binding.lifecycleOwner = viewLifecycleOwner
-
         binding.viewModel = viewModel
 
         binding.recipes.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = viewModelAdapter
-            addItemDecoration(VerticalSpaceItemDecoration(16))
+            addItemDecoration(VerticalSpaceItemDecoration(12))
         }
         return binding.root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        viewModel.saveState()
+        super.onSaveInstanceState(outState)
     }
 }
 
@@ -117,5 +137,6 @@ class VerticalSpaceItemDecoration(private val verticalSpaceHeight: Int) : Recycl
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView,
                                 state: RecyclerView.State) {
         outRect.bottom = verticalSpaceHeight
+        outRect.top = verticalSpaceHeight
     }
 }

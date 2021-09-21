@@ -2,6 +2,8 @@ package com.example.appyhour.recipes
 
 import android.app.Application
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.appyhour.addBottle.AddBottleViewModel
@@ -20,8 +22,13 @@ class RecipeDetailViewModel(application: Application) : ViewModel() {
     private val recipesRepository = RecipeRepository(database)
     private val viewModelScope = CoroutineScope(Dispatchers.IO)
 
+    private val _recipeFavorited = MutableLiveData<Boolean>()
+    val recipeFavorited: LiveData<Boolean>
+    get() = _recipeFavorited
+
     fun saveRecipe(recipe: Recipe) {
         recipe.isSaved = !recipe.isSaved
+        _recipeFavorited.value = recipe.isSaved
         viewModelScope.launch{
             recipesRepository.updateRecipe(recipe)
         }

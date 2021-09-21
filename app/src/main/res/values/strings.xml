@@ -14,4 +14,14 @@
     <string name="loading_image">Loading image</string>
     <string name="filter_recipes_string">Filter</string>
     <string name="save_recipe_contdesc">Button for saving a recipe</string>
+    <string name="my_bar">My Bar</string>
+    <string name="menu_add_bottle">Add Bottle</string>
+    <string name="menu_recipes">Recipes</string>
+    <string name="help">Help</string>
+    <string name="help_text">
+        This app is designed to store your bar\'s bottles in a horizontally scrolling library as well as retrieve recipes from an
+        online repository. You can save these online recipes for offline viewing with the favorite button within each recipe card.
+        The app will also recommend new recipes for you to discover based on the bottles that are in your bar library to save you
+        scrolling through the entire list. Future updates to the list will be downloaded when a good internet connection is established.\n\nCheers!
+    </string>
 </resources>

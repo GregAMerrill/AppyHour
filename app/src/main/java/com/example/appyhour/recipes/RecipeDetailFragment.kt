@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.example.appyhour.R
 import com.example.appyhour.databinding.FragmentRecipeDetailBinding
@@ -36,7 +37,13 @@ class RecipeDetailFragment : Fragment() {
             R.layout.fragment_recipe_detail,
             container,false)
         binding.recipe = RecipeDetailFragmentArgs.fromBundle(requireArguments()).recipe
+
+        viewModel.recipeFavorited.observe(viewLifecycleOwner, {
+            binding.invalidateAll()
+        })
+
         return binding.root
     }
+
 
 }

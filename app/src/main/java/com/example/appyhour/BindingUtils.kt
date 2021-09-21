@@ -21,6 +21,7 @@ fun ImageView.setBottleImage(item: Bottle?) {
             "Tequila" -> R.drawable.tequila1
             "Rum" -> R.drawable.rum1
             "Gin" -> R.drawable.gin1
+            "Brandy" -> R.drawable.brandy1
             else -> R.drawable.whiskey1
         })
     }

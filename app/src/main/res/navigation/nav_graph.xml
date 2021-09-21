@@ -8,46 +8,73 @@
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.example.appyhour.recipes.RecipeFragment"
-        android:label="fragment_recipe"
-        tools:layout="@layout/fragment_recipe" >
+        tools:layout="@layout/fragment_recipe">
         <action
             android:id="@+id/action_recipeFragment_to_homeFragment"
             app:destination="@id/homeFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
             app:popUpTo="@id/homeFragment" />
         <action
             android:id="@+id/action_recipeFragment_to_recipeDetailFragment"
-            app:destination="@id/recipeDetailFragment" />
+            app:destination="@id/recipeDetailFragment"
+            app:enterAnim="@anim/slide_right"
+            app:exitAnim="@anim/slide_left_out"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right_out" />
     </fragment>
     <fragment
         android:id="@+id/addBottleFragment"
         android:name="com.example.appyhour.addBottle.AddBottleFragment"
-        android:label="fragment_add_bottle"
-        tools:layout="@layout/fragment_add_bottle" >
+        tools:layout="@layout/fragment_add_bottle">
         <action
             android:id="@+id/action_addBottleFragment_to_homeFragment"
             app:destination="@id/homeFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
             app:popUpTo="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.appyhour.home.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="@string/app_name">
         <action
             android:id="@+id/action_homeFragment_to_addBottleFragment"
-            app:destination="@id/addBottleFragment" />
+            app:destination="@id/addBottleFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_homeFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment" />
+            app:destination="@id/recipeFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/recipeDetailFragment"
-        android:name="com.example.appyhour.recipes.RecipeDetailFragment"
-        android:label="RecipeDetailFragment">
-        <argument android:name="recipe"
+        android:name="com.example.appyhour.recipes.RecipeDetailFragment">
+        <argument
+            android:name="recipe"
             app:argType="com.example.appyhour.recipes.recipeList.Recipe" />
         <action
             android:id="@+id/action_recipeDetailFragment_to_recipeFragment"
             app:destination="@id/recipeFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right_out"
+            app:popEnterAnim="@anim/slide_right"
+            app:popExitAnim="@anim/slide_left_out"
             app:popUpTo="@id/recipeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.example.appyhour.home.HelpFragment"
+        android:label="@string/help"
+        tools:layout="@layout/fragment_help" />
 </navigation>

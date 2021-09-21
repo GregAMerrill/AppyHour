@@ -37,15 +37,11 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        when(viewModel.recipeFilter.value) {
-            ListType.FULL -> binding.recipeTitle.text = getString(R.string.all_recipes_string)
-            ListType.SAVED ->binding.recipeTitle.text = getString(R.string.my_recipes_string)
-        }
-        viewModel.recipeList.observe(viewLifecycleOwner, {
-            filterRecipeList(viewModel.recipeFilter.value!!)
+        viewModel.filteredList.observe(viewLifecycleOwner, {
+            viewModelAdapter?.recipes = it
         })
         viewModel.recipeFilter.observe(viewLifecycleOwner, { listType ->
-            filterRecipeList(listType)
+            changeHeader(listType)
         })
         viewModel.navToRecipeDetail.observe(viewLifecycleOwner, Observer {
             if(null != it){
@@ -55,14 +51,8 @@ class RecipeFragment : Fragment() {
         })
     }
 
-    private fun filterRecipeList(listType: ListType) {
-        viewModel.recipeList.value?.apply{
-            val myRecipes = this.filter { recipe -> recipe.isSaved }.sortedBy { it.name }
-            binding.recipesFrameLayout.background =
-                getDrawable(requireContext(), R.drawable.recipe_scroll_box)
-            if(listType == ListType.SAVED) viewModelAdapter?.recipes = myRecipes
-            else viewModelAdapter?.recipes = this.sortedBy { it.name }
-        }
+    private fun changeHeader(listType: ListType) {
+        binding.recipeTitle.text = if(listType == ListType.FULL) getString(R.string.all_recipes_string) else getString(R.string.my_recipes_string)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

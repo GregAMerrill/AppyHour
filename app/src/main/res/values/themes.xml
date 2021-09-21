@@ -17,6 +17,7 @@
         <item name="android:textColor">@color/primaryTextColor</item>
         <item name="android:textColorHint">@color/primaryTextColor</item>
         <item name="android:textSize">20sp</item>
+        <item name="android:itemBackground">@color/secondaryLightColor</item>
     </style>
 
     <style name="fragmentHeader" parent="appTheme">

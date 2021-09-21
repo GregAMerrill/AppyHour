@@ -2,11 +2,9 @@ package com.example.appyhour.recipes
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import com.example.appyhour.addBottle.AddBottleViewModel
-import com.example.appyhour.bottleDatabase.BarDatabaseDao
 import com.example.appyhour.recipes.recipeList.Recipe
 import com.example.appyhour.recipes.recipeList.RecipeRepository
 import com.example.appyhour.recipes.recipeList.getDatabase
@@ -29,6 +27,10 @@ class RecipeViewModel(application: Application, private val state: SavedStateHan
     val navToRecipeDetail: LiveData<Recipe?>
         get() = _navToRecipeDetail
 
+    private val _filteredList = MutableLiveData<List<Recipe>>()
+    val filteredList: LiveData<List<Recipe>>
+    get() = _filteredList
+
     private val _recipeFilter = MutableLiveData<ListType>()
     val recipeFilter:LiveData<ListType>
     get() = _recipeFilter
@@ -37,12 +39,25 @@ class RecipeViewModel(application: Application, private val state: SavedStateHan
 
     init {
         _recipeFilter.value = state.get("recipeFilter") ?: ListType.SAVED
-        fetchRecipes()
+        fetchRecipes().invokeOnCompletion { _filteredList.value = if(_recipeFilter.value == ListType.SAVED) filterSavedRecipes() else recipeList.value }
     }
 
     fun changeFilter() {
-        fetchRecipes()
-        _recipeFilter.value = if(recipeFilter.value == ListType.SAVED) ListType.FULL else ListType.SAVED
+        if (_recipeFilter.value == ListType.SAVED) {
+            fetchRecipes()
+            _filteredList.value = recipeList.value?.sortedBy {it.name}
+            _recipeFilter.value = ListType.FULL
+        } else {
+            _filteredList.value = filterSavedRecipes()
+            _recipeFilter.value = ListType.SAVED
+        }
+    }
+
+    private fun filterSavedRecipes(): List<Recipe> {
+        if(recipeList.value != null) {
+            return recipeList.value!!.filter { recipe -> recipe.isSaved }.sortedBy { it.name }
+        }
+        else return emptyList()
     }
 
     private fun fetchRecipes() = viewModelScope.launch {

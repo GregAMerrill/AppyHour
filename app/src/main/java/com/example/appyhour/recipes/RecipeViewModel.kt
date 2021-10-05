@@ -2,7 +2,6 @@ package com.example.appyhour.recipes
 
 import android.app.Application
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import com.example.appyhour.recipes.recipeList.Recipe
@@ -27,46 +26,53 @@ class RecipeViewModel(application: Application, private val state: SavedStateHan
     val navToRecipeDetail: LiveData<Recipe?>
         get() = _navToRecipeDetail
 
-    private val _filteredList = MutableLiveData<List<Recipe>>()
-    val filteredList: LiveData<List<Recipe>>
-    get() = _filteredList
+    private val _recipeList = MutableLiveData<List<Recipe>>()
+    val recipeList: LiveData<List<Recipe>>
+    get() = _recipeList
 
     private val _recipeFilter = MutableLiveData<ListType>()
     val recipeFilter:LiveData<ListType>
     get() = _recipeFilter
 
-    val recipeList = recipesRepository.recipes
-
     init {
+        fetchRecipes()
         _recipeFilter.value = state.get("recipeFilter") ?: ListType.SAVED
-        fetchRecipes().invokeOnCompletion { _filteredList.value = if(_recipeFilter.value == ListType.SAVED) filterSavedRecipes() else recipeList.value }
+        when(_recipeFilter.value) {
+            ListType.FULL -> getAllRecipes()
+            ListType.SAVED -> _recipeList.value = getSavedRecipes()
+        }
     }
 
     fun changeFilter() {
         if (_recipeFilter.value == ListType.SAVED) {
             fetchRecipes()
-            _filteredList.value = recipeList.value?.sortedBy {it.name}
+            getAllRecipes()
             _recipeFilter.value = ListType.FULL
         } else {
-            _filteredList.value = filterSavedRecipes()
+            _recipeList.value = getSavedRecipes()
             _recipeFilter.value = ListType.SAVED
         }
     }
 
-    private fun filterSavedRecipes(): List<Recipe> {
-        if(recipeList.value != null) {
-            return recipeList.value!!.filter { recipe -> recipe.isSaved }.sortedBy { it.name }
+    private fun getSavedRecipes(): List<Recipe> {
+        if(_recipeList.value != null) {
+            return _recipeList.value!!.filter { recipe -> recipe.isSaved }
         }
-        else return emptyList()
+        return emptyList()
     }
 
     private fun fetchRecipes() = viewModelScope.launch {
         recipesRepository.refreshRecipes()
     }
 
+    private fun getAllRecipes() {
+        viewModelScope.launch { _recipeList.value = recipesRepository.getAllRecipes() }
+    }
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+        recipesRepository.cancelJob()
     }
 
     fun saveState() {

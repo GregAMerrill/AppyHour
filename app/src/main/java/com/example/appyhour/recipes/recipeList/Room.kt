@@ -7,10 +7,10 @@ import androidx.room.*
 @Dao
 interface RecipeDao {
     @Query("select * from databaserecipe")
-    fun getRecipes(): LiveData<List<DatabaseRecipe>>
+    suspend fun getRecipes(): List<DatabaseRecipe>
 
     @Query("select * from databaserecipe where id=:id")
-    fun getRecipe(id: Long): DatabaseRecipe
+    suspend fun getRecipe(id: Long): DatabaseRecipe
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateRecipe(recipe: DatabaseRecipe)

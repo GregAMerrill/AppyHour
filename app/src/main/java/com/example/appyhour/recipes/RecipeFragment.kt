@@ -37,11 +37,11 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.filteredList.observe(viewLifecycleOwner, {
+        viewModel.recipeList.observe(viewLifecycleOwner, {
             viewModelAdapter?.recipes = it
         })
-        viewModel.recipeFilter.observe(viewLifecycleOwner, { listType ->
-            changeHeader(listType)
+        viewModel.recipeFilter.observe(viewLifecycleOwner, {
+            changeHeader(it)
         })
         viewModel.navToRecipeDetail.observe(viewLifecycleOwner, Observer {
             if(null != it){
